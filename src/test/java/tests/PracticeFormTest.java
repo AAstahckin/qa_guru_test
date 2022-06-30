@@ -1,66 +1,38 @@
 package tests;
 
-import com.codeborne.selenide.Configuration;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import static tests.TestData.*;
 
-import java.io.File;
-
-import static com.codeborne.selenide.Condition.text;
-import static com.codeborne.selenide.Selectors.byText;
-import static com.codeborne.selenide.Selenide.*;
-
-public class PracticeFormTest {
-
-    @BeforeAll
-    static void beforeAll() {
-        Configuration.baseUrl = "https://demoqa.com";
-        Configuration.browserSize = "1920x1080";
-    }
+public class PracticeFormTest extends TestBase {
 
     @Test
     void successfulTest() {
 
-        String firstName = "Alex";
-        String lastName = "Alexus";
-        String email = "Alex@test.com";
-        String mobileNumber = "9999999999";
-        String subjects = "Physics";
-        String address = "Montana";
-        File file = new File("src/test/java/resources/Screenshot_1.png");
-
-        open("/automation-practice-form");
-
-        $("#firstName").setValue(firstName);
-        $("#lastName").setValue(lastName);
-        $("#userEmail").setValue(email);
-        $(byText("Male")).click();
-        $("#userNumber").setValue(mobileNumber);
-        $(".react-datepicker-wrapper .form-control").click();
-        $(".react-datepicker__day--029").click();
-        $("#subjectsInput").sendKeys(subjects);
-        $("#subjectsInput").pressEnter();
-        $(byText("Sports")).click();
-        $(".form-control-file").uploadFile(file);
-        $("#currentAddress").setValue(address);
-        $(byText("Select State")).click();
-        $(byText("NCR")).click();
-        $(byText("Select City")).click();
-        $(byText("Delhi")).click();
-        $("#submit").click();
-        $(".table-responsive").shouldHave(
-                text(firstName),
-                text(lastName),
-                text(email),
-                text("Male"),
-                text(mobileNumber),
-                text("29 May,2022"),
-                text(subjects),
-                text("Sports"),
-                text("Screenshot_1.png"),
-                text(address),
-                text("NCR Delhi")
-        );
-        $("#closeLargeModal").click();
+        practiceFormTestPage
+                .openPage()
+                .setFirsName(practiceFirstName)
+                .setLastName(practiceLastName)
+                .setUserEmail(practiceEmail)
+                .clickByText(practiceMale)
+                .setDateOfBirth(practiceMonth, practiceYear, practiceDay)
+                .setUserNumber(practiceMobileNumber)
+                .setSubjectsInput(practiceSubjects)
+                .clickByText(practiceHobbies)
+                .setPicture(picture)
+                .setCurrentAddress(practiceAddress)
+                .setUserState(practiceState)
+                .setCity(practiceCity)
+                .pressSubmit()
+                .checkResult("Student Name", practiceFirstName + " " + practiceLastName)
+                .checkResult("Student Email", practiceEmail)
+                .checkResult("Gender", practiceMale)
+                .checkResult("Mobile", practiceMobileNumber)
+                .checkResult("Date of Birth", practiceDay + " " + practiceMonth + "," + practiceYear)
+                .checkResult("Subjects", practiceSubjects)
+                .checkResult("Hobbies", practiceHobbies)
+                .checkResult("Picture", picture)
+                .checkResult("Address", practiceAddress)
+                .checkResult("State and City", practiceState + " " + practiceCity)
+                .closeSubmit();
     }
 }
