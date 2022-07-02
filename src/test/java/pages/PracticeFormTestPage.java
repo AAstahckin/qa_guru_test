@@ -5,9 +5,9 @@ import pages.components.CalenderComponent;
 import pages.components.CheckResultTableComponent;
 import pages.components.PictureUpload;
 
+import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.byText;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Selenide.*;
 
 public class PracticeFormTestPage {
 
@@ -30,6 +30,9 @@ public class PracticeFormTestPage {
 
     public PracticeFormTestPage openPage() {
         open("/automation-practice-form");
+        $(".practice-form-wrapper").shouldHave(text("Student Registration Form"));
+        executeJavaScript("$('footer').remove()");
+        executeJavaScript("$('#fixedban').remove()");
         return this;
     }
 
