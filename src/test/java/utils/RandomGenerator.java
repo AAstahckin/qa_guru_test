@@ -2,6 +2,8 @@ package utils;
 
 import java.util.Random;
 
+import static tests.variableInterface.FormTest.*;
+
 public class RandomGenerator {
     static Random random = new Random();
 
@@ -24,16 +26,13 @@ public class RandomGenerator {
     }
 
     public static String getRandomString(int length, String key) {
-        String characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJLMNOPQRSTUVWXYZ";
-        String anyString = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJLMNOPQRSTUVWXYZ1234567890!@#$%^&*()';/?.,";
-        String number = "1234567890";
         switch (key) {
-            case "Email":
-                return randomString(length, characters) + "@test.com";
-            case "Phone":
-                return randomString(length, number);
-            case "AnyString":
-                return randomString(length, anyString);
+            case EMAIL:
+                return randomString(length, CHARACTERS) + DOMAIN_TEST;
+            case PHONE:
+                return randomString(length, NUMBER);
+            case ANY:
+                return randomString(length, ANY_STRING);
         }
         return key;
     }
